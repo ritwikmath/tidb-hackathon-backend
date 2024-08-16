@@ -1,0 +1,6 @@
+flask
+llama-index-llms-gemini
+llama-index
+google-generativeai
+llama-index-core
+llama-index-embeddings-gemini
