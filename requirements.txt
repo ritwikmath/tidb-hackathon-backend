@@ -1,5 +1,5 @@
 Flask
-llama-index-llms-gemini
+llama-index-llms-gemini==0.2.0
 llama-index
 google-generativeai
 llama-index-core

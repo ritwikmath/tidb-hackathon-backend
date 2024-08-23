@@ -1,6 +1,6 @@
 from flask import Flask, request
 from llama_index.llms.gemini import Gemini
-from llama_index.core import SQLDatabase, VectorStoreIndex, SimpleDirectoryReader, Settings, load_index_from_storage, StorageContext
+from llama_index.core import SQLDatabase, VectorStoreIndex, SimpleDirectoryReader, Settings, load_index_from_storage
 import os
 from sqlalchemy import create_engine, URL, text
 from sqlalchemy.orm import declarative_base, sessionmaker
@@ -25,7 +25,6 @@ class Config:
 
 def get_db_engine():
     config = Config()
-    print(vars(config))
     dsn = URL.create(
         drivername="mysql+pymysql",
         username=config.tidb_user,
@@ -51,7 +50,8 @@ engine = get_db_engine()
 Session = sessionmaker(bind=engine)
 Base = declarative_base()
 sql_database = SQLDatabase(engine, include_tables=tables)
-Settings.llm = (llm := Gemini(model="models/gemini-1.5-flash-001", api_key=os.getenv("GOOGLE_API_KEY")))
+llm = Gemini(model="models/gemini-1.5-flash-001", api_key=os.getenv("GOOGLE_API_KEY"))
+Settings.llm = llm
 Settings.embed_model = GeminiEmbedding(
     model_name="models/embedding-001", api_key=os.getenv("GOOGLE_API_KEY")
 )
