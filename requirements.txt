@@ -1,6 +1,9 @@
-flask
+Flask
 llama-index-llms-gemini
 llama-index
 google-generativeai
 llama-index-core
 llama-index-embeddings-gemini
+python-dotenv
+SQLAlchemy
+PyMySQL
