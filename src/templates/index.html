@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="left-side">
+        <h2>Select a Mode</h2>
+        <label>
+            <input type="radio" name="mode" value="general" checked>
+            General SQL Question
+        </label>
+        <label>
+            <input type="radio" name="mode" value="textToSQL">
+            Text to SQL
+        </label>
+
+        <form id="queryForm">
+            <div id="generalSQL">
+                <label for="schema">SQL Schema:</label>
+                <textarea id="schema" name="schema" rows="20" placeholder="Enter SQL Schema..."></textarea>
+
+                <label for="questionGeneral">Question:</label>
+                <textarea id="questionGeneral" name="questionGeneral" rows="2" placeholder="Enter your question..."></textarea>
+            </div>
+
+            <div id="textToSQL" style="display: none;">
+                <label for="questionTextToSQL">Question:</label>
+                <textarea id="questionTextToSQL" name="questionTextToSQL" rows="2" placeholder="Enter your question..."></textarea>
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="right-side">
+        <h2>API Response</h2>
+        <div id="apiResponse">
+            <!-- API response will be displayed here -->
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,15 +1,18 @@
 from flask import Flask, request
 from llama_index.llms.gemini import Gemini
 from llama_index.core import SQLDatabase, VectorStoreIndex, SimpleDirectoryReader, Settings, load_index_from_storage
+from llama_index.core.prompts import PromptTemplate
 import os
 from sqlalchemy import create_engine, URL, text
 from sqlalchemy.orm import declarative_base, sessionmaker
 from dotenv import load_dotenv
 from llama_index.core.query_engine import NLSQLTableQueryEngine
 from llama_index.embeddings.gemini import GeminiEmbedding
+from routes.views import view_bp
 
 app = Flask(__name__)
 tables = ["customers", "employees", "offices"]
+app.register_blueprint(view_bp)
 
 
 class Config:
@@ -57,17 +60,23 @@ Settings.embed_model = GeminiEmbedding(
 )
 
 
-@app.get("/")
-def index():
-    return {
-       "message": "Ok"
-    }, 200
-
-
 @app.post("/sql-query-response")
 def getSQLQueryResponse():
     body = request.json
-    resp = Gemini().complete(body.get("question"))
+    schema, question = body.get("schema"), body.get("question")
+    if schema != "":
+        prompt_text = f"""
+            Imagine that you are a senior Database expert.\n\nYou have to identify whether schema is csv or sql statements.\n\n
+            Based on the following schema:\n\n{schema}\n\nAnswer the following question:\n{question}
+        """
+    else:
+        prompt_text = f"""
+            Imagine that you are a senior Database expert.\n\nAnswer the following question:\n{question}
+            \n\nImagine a suitable table structure.
+        """
+    template = PromptTemplate(prompt_text)
+    prompt = template.format()
+    resp = Gemini().complete(prompt)
     return {
         "message": str(resp)
     }
@@ -87,5 +96,5 @@ def getSQLTextToQuery():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8080)
+    app.run(debug=True, host="0.0.0.0", port=8080)
 
