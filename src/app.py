@@ -51,7 +51,7 @@ engine = get_db_engine()
 Session = sessionmaker(bind=engine)
 Base = declarative_base()
 sql_database = SQLDatabase(engine, include_tables=tables)
-Settings.llm = (llm := Gemini())
+Settings.llm = (llm := Gemini(model="models/gemini-1.5-flash-001", api_key=os.getenv("GOOGLE_API_KEY")))
 Settings.embed_model = GeminiEmbedding(
     model_name="models/embedding-001", api_key=os.getenv("GOOGLE_API_KEY")
 )
