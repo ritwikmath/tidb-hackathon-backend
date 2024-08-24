@@ -91,7 +91,7 @@ def getSQLTextToQuery():
     query_str = body.get("question")
     response = query_engine.query(query_str)
     return {
-        "message": str(response)
+        "message": f"{str(response)}<br/><br/><h3>SQL Query</h3>\n\n{response.metadata['sql_query']}"
     }
 
 

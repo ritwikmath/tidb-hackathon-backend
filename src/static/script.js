@@ -34,11 +34,11 @@ document.addEventListener('DOMContentLoaded', function () {
         let requestData = {};
 
         if (selectedMode === 'general') {
-            apiUrl = 'http://127.0.0.1:8080/sql-query-response';
+            apiUrl = '/sql-query-response';
             requestData.schema = document.getElementById('schema').value;
             requestData.question = document.getElementById('questionGeneral').value;
         } else if (selectedMode === 'textToSQL') {
-            apiUrl = 'http://127.0.0.1:8080/sql-text-to-query';
+            apiUrl = '/sql-text-to-query';
             requestData.question = document.getElementById('questionTextToSQL').value;
         }
 
